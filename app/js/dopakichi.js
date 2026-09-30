@@ -7,7 +7,7 @@ const NS = 'http://www.w3.org/2000/svg';
 export const INK = '#000';
 const CREAM = '#fff3e4';
 export const PALETTES = {
-  pink: { body: '#ff97bf', inner: '#ffe6f0', leg: '#2f79f7', cheek: '#ffe6f0' },
+  pink: { body: '#ffd15a', inner: '#ffb15a', leg: '#ffd15a', cheek: '#ff9a32', flat: '#ffd15a' },
   blue: { body: '#6fa0ff', inner: '#dde8ff', leg: '#ff97bf', cheek: '#ffd6e6' },
   yellow: { body: '#ffd452', inner: '#fff3c4', leg: '#2f79f7', cheek: '#ffd9c2' },
   mint: { body: '#5eddb8', inner: '#d6f8ec', leg: '#7b5cff', cheek: '#ffd6e6' },
@@ -40,13 +40,14 @@ const el = (name, attrs = {}, parent) => {
 
 // Outlines use the class "dk-l" (stroke width from --dkw); expression
 // strokes use "dk-f", slightly heavier so faces stay readable when small.
+const LULU = '#ffd15a';
 const L = 'class="dk-l"';
 const F = 'class="dk-f"';
 // Eye rings use a thinner line so the white ring stays visible, as in the drawing.
 const T = 'class="dk-t"';
 const EYE = {
-  open: (p) => `<circle r="11.2" fill="#fff" ${T}/><circle class="dk-t dk-iris" r="8.6" fill="${p.body}"/>`,
-  wide: (p) => `<circle r="12.4" fill="#fff" ${T}/><circle class="dk-t dk-iris" r="5" fill="${p.body}"/>`,
+  open: (p) => `<ellipse rx="9.4" ry="10.4" fill="#fff" ${T}/><ellipse class="dk-t dk-iris" cy="1.4" rx="5.8" ry="6.5" fill="#3b7cff"/><circle cy="2.5" r="2.9" fill="#1b3fa8"/><circle cx="-2.2" cy="-1.4" r="1.8" fill="#fff"/>`,
+  wide: (p) => `<ellipse rx="10.4" ry="11.6" fill="#fff" ${T}/><ellipse class="dk-t dk-iris" cy="1" rx="4" ry="4.4" fill="#3b7cff"/><circle cy="1.6" r="2" fill="#1b3fa8"/>`,
   happy: () => `<path d="M-9 3 Q0 -10 9 3" fill="none" ${F}/>`,
   closed: () => `<path d="M-9 -1 Q0 7 9 -1" fill="none" ${F}/>`,
   x: () => `<path d="M-7 -7 L7 7 M7 -7 L-7 7" fill="none" ${F}/>`,
@@ -68,38 +69,39 @@ const MOUTH = {
   puff: `<path d="M-3 0 L3 0" fill="none" ${L}/>`,
 };
 
-// Shape constants (unit space, feet at y=0), from docs/dopakichi.svg scaled by 0.18.
+// Shape constants (unit space, feet at y=0), from docs/lulu.svg scaled by 0.18.
 export const G = {
-  foot: 'M-19.3 -18.5 C-24.8 -18.5 -28.1 -16 -32.8 -11.3 C-36.7 -7.4 -38.9 -4.9 -35.8 -2.3 C-31.5 1.4 -24.1 1.1 -18.2 -2 C-12.1 -4.9 -8.5 -9.2 -12.1 -14.8 C-13.9 -17.6 -16.2 -18.5 -19.3 -18.5Z',
-  footPivot: { x: 18.5, y: -15.8 },
+  foot: 'M-29.7 -36 C-32.22 -26.64 -31.5 -16.56 -27.18 -11.52 L-18.54 -11.52 C-13.5 -17.28 -13.14 -27.36 -16.02 -36Z',
+  footPivot: { x: 22.9, y: -9.4 },
   // Body fill reaches up under the head; the neck has no drawn seam.
-  bodyFill: 'M-37.4 -65.7 C-29.7 -61 -25.2 -54.2 -25.2 -46.8 C-25.2 -40.5 -28.8 -35.3 -28.8 -28.4 C-28.8 -18.4 -20.7 -13.5 -10.8 -13.5 L10.8 -13.5 C20.7 -13.5 28.8 -18.4 28.8 -28.4 C28.8 -35.3 25.2 -40.5 25.2 -46.8 C25.2 -54.2 29.7 -61 37.4 -65.7 L37.4 -75.2 L-37.4 -75.2Z',
-  bodyLine: 'M-37.4 -65.7 C-29.7 -61 -25.2 -54.2 -25.2 -46.8 C-25.2 -40.5 -28.8 -35.3 -28.8 -28.4 C-28.8 -18.4 -20.7 -13.5 -10.8 -13.5 L10.8 -13.5 C20.7 -13.5 28.8 -18.4 28.8 -28.4 C28.8 -35.3 25.2 -40.5 25.2 -46.8 C25.2 -54.2 29.7 -61 37.4 -65.7',
-  belly: { cy: -32, rx: 17.8, ry: 13.5 },
-  headFill: 'M-37.4 -65.7 C-49.7 -73.1 -56.3 -82.1 -56.3 -98.5 C-56.3 -129.6 -32.9 -149.2 0 -149.2 C32.9 -149.2 56.3 -129.6 56.3 -98.5 C56.3 -82.1 49.7 -73.1 37.4 -65.7 L0 -70.2Z',
-  headLine: 'M-37.4 -65.7 C-49.7 -73.1 -56.3 -82.1 -56.3 -98.5 C-56.3 -129.6 -32.9 -149.2 0 -149.2 C32.9 -149.2 56.3 -129.6 56.3 -98.5 C56.3 -82.1 49.7 -73.1 37.4 -65.7',
-  face: 'M0 -133 C29.7 -133 48.2 -121.7 48.2 -96.5 C48.2 -71.3 25.7 -61.2 0 -61.2 C-25.7 -61.2 -48.2 -71.3 -48.2 -96.5 C-48.2 -121.7 -29.7 -133 0 -133Z',
-  head: { cy: -100, r: 56 },
-  neckY: -65.7,
-  ear: { x: 74.2, cy: -105.3, rx: 31, ry: 31.3, irx: 21.1, iry: 22, pivot: 52.6 },
-  eye: { x: 23.4, y: -93.8 },
-  brow: { x: 13.5, y: -111.2, rx: 3.1, ry: 1.8 },
-  mouthY: -79,
-  cheek: { x: 30.6, y: -78.5, rx: 4.3, ry: 2.7 },
-  shoulder: { x: 25.7, y: -48 },
-  rest: { x: 37.8, y: -34.7 },
-  arm: 4.6,
-  hand: 9.7,
+  bodyFill: 'M-31.5 -72 C-25.02 -65.52 -21.78 -57.6 -20.34 -48.96 L-18.9 -38.16 L18.9 -38.16 L20.34 -48.96 C21.78 -57.6 25.02 -65.52 31.5 -72 L31.5 -79.92 C21.42 -72 -21.42 -72 -31.5 -79.92Z',
+  bodyLine: 'M-31.5 -72 C-25.02 -65.52 -21.78 -57.6 -20.34 -48.96 L-18.9 -38.16 L18.9 -38.16 L20.34 -48.96 C21.78 -57.6 25.02 -65.52 31.5 -72',
+  shorts: 'M-22.5 -43.92 C-22.5 -47.52 -17.1 -49.68 -9.54 -49.68 L9.54 -49.68 C17.1 -49.68 22.5 -47.52 22.5 -43.92 C24.66 -36 25.74 -28.08 24.3 -22.32 C22.86 -17.28 17.82 -15.84 11.34 -15.84 L5.58 -15.84 C3.42 -21.6 1.26 -24.48 0 -24.48 C-1.26 -24.48 -3.42 -21.6 -5.58 -15.84 L-11.34 -15.84 C-17.82 -15.84 -22.86 -17.28 -24.3 -22.32 C-25.74 -28.08 -24.66 -36 -22.5 -43.92Z',
+  headFill: 'M0 -108.72 m-41.76 0 a41.76 38.52 0 1 0 83.52 0 a41.76 38.52 0 1 0 -83.52 0',
+  headLine: '',
+  face: 'M0 -95.04 m-28.44 0 a28.44 19.44 0 1 0 56.88 0 a28.44 19.44 0 1 0 -56.88 0',
+  head: { cy: -109, r: 42 },
+  neckY: -72,
+  ear: { x: 37.6, cy: -131, rx: 9.4, ry: 11.5, irx: 5.4, iry: 6.8, pivot: 30.2 },
+  eye: { x: 16.7, y: -118.1 },
+  brow: { x: 16.7, y: -131, rx: 4.7, ry: 1.4 },
+  mouthY: -90,
+  cheek: { x: 28.4, y: -95, rx: 4, ry: 2.2 },
+  shoulder: { x: 24, y: -62 },
+  rest: { x: 52, y: -30 },
+  arm: 6.4,
+  hand: 8.6,
 };
 
 // Outline width in unit space: thin like the drawing, with a pixel floor.
 const lineFor = (S) => clamp(1.7 / S, 1.4, 3.2);
 
 // Static parts shared by the live actor and the sprite image.
-const earSVG = (p, s) => `<ellipse ${L} cx="${s * G.ear.x}" cy="${G.ear.cy}" rx="${G.ear.rx}" ry="${G.ear.ry}" fill="${p.body}"/><ellipse ${L} cx="${s * G.ear.x}" cy="${G.ear.cy}" rx="${G.ear.irx}" ry="${G.ear.iry}" fill="${p.inner}"/>`;
-const footSVG = (p, s) => `<path ${L} d="${G.foot}" fill="${p.leg}"${s > 0 ? ' transform="scale(-1 1)"' : ''}/>`;
-const bodySVG = (p) => `<path d="${G.bodyFill}" fill="${p.body}"/><path ${L} d="${G.bodyLine}" fill="none"/><ellipse ${L} cy="${G.belly.cy}" rx="${G.belly.rx}" ry="${G.belly.ry}" fill="${CREAM}"/>`;
-const headSVG = (p) => `<path d="${G.headFill}" fill="${p.body}"/><path ${L} d="${G.headLine}" fill="none"/><path ${L} d="${G.face}" fill="${CREAM}"/>`;
+const FRUIT = `<g><circle ${L} cy="-152.6" r="13" fill="#ff8a1a"/><path ${L} d="M0 -164.9 C1.3 -170.6 5.6 -173.5 8.1 -176 C4.1 -172.8 3.1 -168.8 2 -164.9Z" fill="#3fa34d"/><ellipse cx="-3.8" cy="-155.5" rx="2.9" ry="1.8" fill="#ffb15a" opacity=".55"/></g>`;
+const earSVG = (p, s) => `<ellipse ${L} cx="${s * G.ear.x}" cy="${G.ear.cy}" rx="${G.ear.rx}" ry="${G.ear.ry}" fill="${LULU}"/><ellipse ${L} cx="${s * G.ear.x}" cy="${G.ear.cy}" rx="${G.ear.irx}" ry="${G.ear.iry}" fill="${p.inner}"/>`;
+const footSVG = (p, s) => `<g${s > 0 ? ' transform="scale(-1 1)"' : ''}><path ${L} d="${G.foot}" fill="${LULU}"/><ellipse ${L} cx="-22.86" cy="-7.2" rx="14" ry="7.2" fill="${LULU}"/><circle ${L} cx="-33.3" cy="-11.5" r="4.7" fill="${LULU}"/><circle ${L} cx="-22.86" cy="-14" r="5" fill="${LULU}"/><circle ${L} cx="-12.4" cy="-11.5" r="4.7" fill="${LULU}"/></g>`;
+const bodySVG = (p) => `<path d="${G.bodyFill}" fill="${LULU}"/><path ${L} d="${G.bodyLine}" fill="none"/><path ${L} d="${G.shorts}" fill="#ff7a12"/><path d="M-17.5 -46 L17.5 -46" fill="none" stroke="#ffb15a" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>`;
+const headSVG = (p) => `<ellipse ${L} cy="${G.head.cy}" rx="41.8" ry="38.5" fill="${LULU}"/>${FRUIT}<ellipse ${L} cy="-95" rx="28.4" ry="19.4" fill="${p.cheek}"/>`;
 const STYLE = `.dk-l,.dk-f,.dk-t{stroke:${INK};stroke-linecap:round;stroke-linejoin:round}.dk-l{stroke-width:var(--dkw)}.dk-f{stroke-width:calc(var(--dkw) * 1.5)}.dk-t{stroke-width:calc(var(--dkw) * 0.55)}`;
 
 let uid = 0;

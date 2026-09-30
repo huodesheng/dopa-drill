@@ -50,13 +50,13 @@ export function comboWindowMs(grade = 3, first = false) {
 // Milestones worth a bigger show: 10, 20, 30, 50, 75, 100, then every 50.
 export const comboMilestone = (c) => [10, 20, 30, 50, 75].includes(c) || (c >= 100 && c % 50 === 0);
 
-const UNITS = [[68, '無量大数'], [64, '不可思議'], [60, '那由他'], [56, '阿僧祇'], [52, '恒河沙'], [48, '極'], [44, '載'], [40, '正'], [36, '澗'], [32, '溝'], [28, '穣'], [24, '秭'], [20, '垓'], [16, '京'], [12, '兆'], [8, '億'], [4, '万']];
+const UNITS = [[68, '无量大数'], [64, '不可思议'], [60, '那由他'], [56, '阿僧祇'], [52, '恒河沙'], [48, '极'], [44, '载'], [40, '正'], [36, '涧'], [32, '沟'], [28, '穰'], [24, '秭'], [20, '垓'], [16, '京'], [12, '兆'], [8, '亿'], [4, '万']];
 // Milestones below 万 are celebrated but not used as display units.
 const MILESTONES = [[3, '千'], [2, '百']];
 
 export function fmtDopa(L) {
   if (!Number.isFinite(L) || L >= 72) return '∞';
-  if (L < 4) return Math.round(10 ** L).toLocaleString('ja-JP');
+  if (L < 4) return Math.round(10 ** L).toLocaleString('zh-CN');
   const u = UNITS.find(([e]) => L >= e - 1e-9);
   const m = 10 ** (L - u[0]);
   return (m < 10 ? m.toFixed(1) : String(Math.floor(m))) + u[1];
@@ -64,7 +64,7 @@ export function fmtDopa(L) {
 
 export function unitOf(L) {
   if (L >= 72) return '∞';
-  // Between 万 and 億, each extra digit is its own milestone (10万, 100万, 1000万).
+  // Between 万 and 亿, each extra digit is its own milestone (10万, 100万, 1000万).
   if (L >= 4 && L < 8) return ['万', '十万', '百万', '千万'][Math.floor(L + 1e-9) - 4];
   const u = UNITS.find(([e]) => L >= e - 1e-9) || MILESTONES.find(([e]) => L >= e - 1e-9);
   return u ? u[1] : '';

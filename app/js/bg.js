@@ -7,13 +7,13 @@ uniform vec2 uRes; uniform vec2 uCenter; uniform float uTime, uE, uKick, uFlash,
 vec3 hsv(float h, float s, float v){ vec3 k = clamp(abs(mod(h*6. + vec3(0.,4.,2.), 6.) - 3.) - 1., 0., 1.); return v * mix(vec3(1.), k, s); }
 float hash(vec2 c){ return fract(sin(dot(c, vec2(127.1, 311.7))) * 43758.5453); }
 mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
-// Dopakichi head silhouette: a wide rounded head with large side ears.
+// Lulu head silhouette: a round head, small top ears and a fruit on top.
 float dopa(vec2 p){
-  vec2 q = (p - vec2(0., -0.02)) / vec2(0.2, 0.15);
-  float h = (length(q) - 1.) * 0.15;
-  float e1 = length(p - vec2(-0.26, 0.01)) - 0.11;
-  float e2 = length(p - vec2(0.26, 0.01)) - 0.11;
-  return min(h, min(e1, e2));
+  float h = (length((p - vec2(0., 0.02)) / vec2(0.2, 0.18)) - 1.) * 0.18;
+  float e1 = length((p - vec2(-0.18, -0.1)) / vec2(0.7, 1.)) - 0.07;
+  float e2 = length((p - vec2(0.18, -0.1)) / vec2(0.7, 1.)) - 0.07;
+  float fruit = length(p - vec2(0., -0.2)) - 0.06;
+  return min(min(h, fruit), min(e1, e2));
 }
 // Beat rings travelling outward (shared).
 float beatRings(float r, float t, float E){ return smoothstep(.35, .7, E) * smoothstep(0.035, 0., abs(fract(r * 2.4 - t * 0.8) - .5) - .45); }

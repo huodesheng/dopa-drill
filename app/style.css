@@ -1,6 +1,7 @@
 @font-face { font-family: "Dela Gothic One"; src: url("fonts/dela-gothic-one.woff2") format("woff2"); font-display: block; }
 @font-face { font-family: "Zen Maru Gothic"; src: url("fonts/zen-maru-gothic-bold.woff2") format("woff2"); font-weight: 700; font-display: block; }
 @font-face { font-family: "Zen Maru Gothic"; src: url("fonts/zen-maru-gothic-black.woff2") format("woff2"); font-weight: 900; font-display: block; }
+@font-face { font-family: "Noto Sans SC"; src: url("fonts/noto-sans-sc.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
 
 :root {
   --ink: #1b1d4d;
@@ -15,8 +16,8 @@
   --red: #ff4f6d;
   --E: 0;
   --kick: 0;
-  --round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
-  --chunky: "Dela Gothic One", "Zen Maru Gothic", sans-serif;
+  --round: "Noto Sans SC", "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Microsoft YaHei", sans-serif;
+  --chunky: "Noto Sans SC", "Dela Gothic One", "Zen Maru Gothic", sans-serif;
   color-scheme: light;
 }
 
@@ -68,8 +69,8 @@ button:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
 /* ------------------------------------------------------------ title */
 #screen-title { flex-direction: column; align-items: center; justify-content: flex-start; gap: 14px; padding: calc(28px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; }
 #screen-title > * { flex: none; }
-/* Logo: layered paper cut-outs. A spinning burst sits behind "ドパ",
-   "ドリル" rides on a folded ribbon, operator scraps float around. */
+/* Logo: layered paper cut-outs. A spinning burst sits behind "噜噜",
+   "练习" rides on a folded ribbon, operator scraps float around. */
 .logo { position: relative; margin: calc(var(--fs) * 0.62) 0 calc(var(--fs) * 0.2); display: grid; justify-items: center; font-family: var(--chunky); font-weight: 400; line-height: 1; --fs: clamp(64px, 21vw, 96px); }
 .logo-burst { position: absolute; left: 50%; top: calc(var(--fs) * 0.52); width: calc(var(--fs) * 2.7); height: calc(var(--fs) * 2.7); transform: translate(-50%, -50%) rotate(calc(var(--spin, 0) * 1deg)); z-index: -1; filter: drop-shadow(0 6px 0 rgba(27, 29, 77, .9)); }
 .logo-top { display: flex; gap: .02em; font-size: var(--fs); letter-spacing: -.04em; }
@@ -93,7 +94,6 @@ button:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
 .ribbon-bg { position: absolute; inset: -6% -14% -10%; width: 128%; height: 116%; z-index: -1; filter: drop-shadow(0 5px 0 var(--ink)); }
 .logo-ribbon i { text-shadow: 2px 0 0 var(--ink), -2px 0 0 var(--ink), 0 2px 0 var(--ink), 0 -2px 0 var(--ink), 0 4px 0 var(--ink); animation: logo-wave 1.6s ease-in-out infinite; }
 .logo-ribbon i:nth-child(3) { animation-delay: -.25s; }
-.logo-ribbon i:nth-child(4) { animation-delay: -.5s; }
 .logo-bits { position: absolute; inset: 0; pointer-events: none; }
 .logo-bits b { position: absolute; left: calc(50% + var(--x)); top: var(--y); font-size: calc(var(--fs) * 0.4); color: var(--c); transform: translate(-50%, -50%) rotate(var(--r)); text-shadow: 2px 0 0 var(--ink), -2px 0 0 var(--ink), 0 2px 0 var(--ink), 0 -2px 0 var(--ink), 3px 4px 0 var(--ink); animation: logo-float 2.4s ease-in-out infinite; }
 .logo-bits b:nth-child(2) { animation-delay: -.6s; }
@@ -408,7 +408,7 @@ body.reduced .logo span, body.reduced .spot, body.reduced .marquee, body.reduced
 .tree-links path { fill: none; stroke: #c9cbe8; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .tree-links path.on { stroke: var(--ink); }
 .tree-links path.grow { stroke: var(--pink); stroke-width: 5; }
-.node { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px 3px 3px; border: 2.5px solid var(--ink); border-radius: 14px; background: #fff; box-shadow: 0 3px 0 var(--ink); font-size: 10.5px; font-weight: 900; line-height: 1.15; text-align: center; color: var(--ink); word-break: keep-all; overflow-wrap: anywhere; }
+.node { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px 3px 3px; border: 2.5px solid var(--ink); border-radius: 14px; background: #fff; box-shadow: 0 3px 0 var(--ink); font-size: 9.5px; font-weight: 900; line-height: 1.15; text-align: center; color: var(--ink); word-break: keep-all; overflow-wrap: anywhere; }
 .node .g { font-size: 9px; opacity: .6; }
 .node .ring { position: absolute; left: 4px; right: 4px; bottom: 3px; height: 4px; border-radius: 3px; background: linear-gradient(90deg, var(--pink) calc(var(--p) * 100%), #eee calc(var(--p) * 100%)); }
 .node.locked { background: #eceaf3; color: #8a8cb0; border-color: #a9abc9; box-shadow: 0 3px 0 #a9abc9; }
@@ -650,7 +650,7 @@ li.done .qbar { background: var(--mint); }
 .skill-news p.capsule-news b { margin-right: 8px; color: #e08a2a; }
 .cr-new i, .gb-new small { font-family: var(--round); line-height: 1.3; margin-bottom: 1px; }
 .cr-new, .gb-new em { line-height: 1; }
-/* id050: review sits right under じぶんレベル. */
+/* id050: review sits right under 我的等级. */
 .modes > .review-main { min-width: 240px; font-weight: 900; }
 .modes > .review-main[hidden] { display: none; }
 
@@ -697,7 +697,7 @@ li.done .qbar { background: var(--mint); }
 .finale-rocket { position: absolute; left: 0; top: 0; width: 180px; height: 120px; transform-origin: 90px 60px; filter: drop-shadow(0 6px 0 rgba(27, 29, 77, .8)); }
 .finale-rocket svg { width: 100%; height: 100%; }
 .finale-banner { position: absolute; left: 0; top: 0; width: 180px; padding: 8px 0; border: 4px solid var(--ink); border-radius: 12px; background: #fff; color: var(--pink); font-family: var(--chunky); font-size: 30px; text-align: center; box-shadow: 0 6px 0 var(--ink); }
-/* id045: "もうすぐ" — the closest next steps. */
+/* id045: "快了" — the closest next steps. */
 .tr-soon { display: grid; grid-template-columns: 40px 1fr 56px; align-items: center; gap: 10px; margin-bottom: 8px; padding: 7px 10px 7px 7px; border: 2.5px solid var(--ink); border-radius: 16px; background: #fff; box-shadow: 0 3px 0 var(--ink); }
 .tr-pct { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: conic-gradient(var(--pink) calc(var(--p) * 360deg), #eceaf3 0); }
 .tr-pct b { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; font-family: var(--chunky); font-weight: 400; font-size: 12px; }
