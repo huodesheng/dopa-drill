@@ -25,10 +25,10 @@ jobs:
           channel: stable
           cache: true
 
-      - uses: android-actions/setup-android@v3
-
-      - name: 安装 Android SDK
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.0.12077973"
+      - name: 补齐 Android SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.0.12077973"
 
       - name: 拷入游戏并打包 APK
         working-directory: shell
