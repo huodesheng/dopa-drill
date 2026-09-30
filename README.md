@@ -37,7 +37,9 @@ flutter build apk --release
 
 安装包在 `shell/build/app/outputs/flutter-apk/app-release.apk`。
 
-推送 `v*` 标签就会自动打包。例如：
+每次推送到 `main`，GitHub Actions 都会打 APK。安装包在对应的 Actions 运行记录里，名字是 `lulu-drill-` 加这次提交号。
+
+推送 `v*` 标签还会自动创建 Release，并把 APK 挂上去。例如：
 
 ```bash
 git tag v1.0.1

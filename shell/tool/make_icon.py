@@ -1,58 +1,42 @@
-"""Draw a launcher icon of the orange lulu, no SVG renderer required."""
+"""Render the lulu drawing into Android launcher icons."""
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+from reportlab.graphics import renderPM
+from svglib.svglib import svg2rlg
 
 ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "android" / "app" / "src" / "main" / "res"
-YELLOW = (255, 209, 90, 255)
-ORANGE = (255, 154, 50, 255)
-SHORTS = (255, 122, 18, 255)
-FRUIT = (255, 138, 26, 255)
-LEAF = (63, 163, 77, 255)
-IRIS = (59, 124, 255, 255)
-PUPIL = (27, 63, 168, 255)
-INK = (0, 0, 0, 255)
+SVG = ROOT.parent / "docs" / "lulu.svg"
 BG = (255, 248, 236, 255)
 
 
-def icon(size: int) -> Image.Image:
+def source() -> Image.Image:
+    drawing = svg2rlg(str(SVG))
+    png = renderPM.drawToPIL(drawing, dpi=144, bg=0xFFF8EC)
+    # The drawing sits in a square canvas with empty margins. Crop to the figure.
+    box = png.getbbox()
+    figure = png.crop(box).convert("RGBA")
+    pad = int(max(figure.size) * 0.08)
+    side = max(figure.size) + pad * 2
+    canvas = Image.new("RGBA", (side, side), BG)
+    canvas.paste(figure, ((side - figure.width) // 2, (side - figure.height) // 2))
+    return canvas
+
+
+def icon(art: Image.Image, size: int) -> Image.Image:
     im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-    s = size / 192
-    d.rounded_rectangle((0, 0, size - 1, size - 1), radius=int(42 * s), fill=BG)
-
-    def e(cx, cy, rx, ry, fill, width=0):
-        box = [(cx - rx) * s, (cy - ry) * s, (cx + rx) * s, (cy + ry) * s]
-        d.ellipse(box, fill=fill, outline=INK if width else None, width=max(1, int(width * s)) if width else 0)
-
-    # fruit
-    e(96, 28, 16, 16, FRUIT, 2.4)
-    d.polygon([(96 * s, 16 * s), (108 * s, 8 * s), (100 * s, 20 * s)], fill=LEAF)
-    # ears
-    e(46, 62, 16, 20, YELLOW, 2.6)
-    e(46, 64, 9, 12, (255, 177, 90, 255))
-    e(146, 62, 16, 20, YELLOW, 2.6)
-    e(146, 64, 9, 12, (255, 177, 90, 255))
-    # head
-    e(96, 96, 62, 54, YELLOW, 3)
-    # muzzle
-    e(96, 112, 40, 28, ORANGE, 2.4)
-    # eyes
-    e(74, 90, 13, 15, (255, 255, 255, 255), 2)
-    e(74, 93, 8, 9, IRIS)
-    e(74, 95, 4, 4, PUPIL)
-    e(118, 90, 13, 15, (255, 255, 255, 255), 2)
-    e(118, 93, 8, 9, IRIS)
-    e(118, 95, 4, 4, PUPIL)
-    # smile
-    d.arc([78 * s, 108 * s, 114 * s, 132 * s], start=15, end=165, fill=INK, width=max(2, int(3 * s)))
-    # shorts
-    d.rounded_rectangle([74 * s, 150 * s, 118 * s, 176 * s], radius=int(10 * s), fill=SHORTS, outline=INK, width=max(1, int(2.4 * s)))
+    draw = ImageDraw.Draw(im)
+    radius = int(size * 0.22)
+    draw.rounded_rectangle((0, 0, size - 1, size - 1), radius=radius, fill=BG)
+    inset = int(size * 0.08)
+    fitted = art.resize((size - inset * 2, size - inset * 2), Image.Resampling.LANCZOS)
+    im.alpha_composite(fitted, (inset, inset))
     return im
 
 
 def main() -> None:
+    art = source()
     sizes = {
         "mipmap-mdpi": 48,
         "mipmap-hdpi": 72,
@@ -63,7 +47,7 @@ def main() -> None:
     for folder, size in sizes.items():
         out = RES / folder / "ic_launcher.png"
         out.parent.mkdir(parents=True, exist_ok=True)
-        icon(size).save(out)
+        icon(art, size).save(out)
         print(out, size)
 
 

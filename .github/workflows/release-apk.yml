@@ -1,9 +1,9 @@
-name: 发版打包
+name: 打包 APK
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -37,9 +37,28 @@ jobs:
           mkdir -p assets/game
           cp -a ../app/. assets/game/
           rm -f assets/game/_headers
+          # 目录条目只打包这一层。脚本和字体在子目录，漏掉就会白屏。
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("pubspec.yaml")
+          text = p.read_text(encoding="utf-8")
+          dirs = sorted({f"    - {d.relative_to('assets').as_posix()}/" for d in Path("assets/game").rglob("*") if d.is_dir()})
+          block = "  assets:\n    - assets/game/\n" + "\n".join(dirs) + "\n"
+          start = text.index("  assets:\n")
+          end = text.index("\n  # To add assets", start)
+          p.write_text(text[:start] + block + text[end:], encoding="utf-8")
+          PY
           flutter build apk --release
 
-      - name: 发布并挂上 APK
+      - name: 上传安装包
+        uses: actions/upload-artifact@v4
+        with:
+          name: lulu-drill-${{ github.sha }}
+          path: shell/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+      - name: 挂到版本发布
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
