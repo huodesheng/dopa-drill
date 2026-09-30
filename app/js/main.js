@@ -2580,7 +2580,7 @@ addEventListener('resize', () => requestAnimationFrame(() => {
   $('#logo-burst-path').setAttribute('d', star(96, 66, 14, 0.14, 7));
   $('#logo-burst-inner').setAttribute('d', star(70, 52, 14, 0.1, 3));
   const burst = $('.logo-burst');
-  onFrame((dt, t) => { if (S.screen === 'title' && !S.reduced) burst.style.setProperty('--spin', (t / 1000 * 10 * (0.3 + S.motion)) % 360); });
+  if (burst) onFrame((dt, t) => { if (S.screen === 'title' && !S.reduced) burst.style.setProperty('--spin', (t / 1000 * 10 * (0.3 + S.motion)) % 360); });
 })();
 
 const saved = store.settings();

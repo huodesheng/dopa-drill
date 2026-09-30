@@ -69,28 +69,12 @@ button:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
 /* ------------------------------------------------------------ title */
 #screen-title { flex-direction: column; align-items: center; justify-content: flex-start; gap: 14px; padding: calc(28px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; }
 #screen-title > * { flex: none; }
-/* Logo: layered paper cut-outs. A spinning burst sits behind "噜噜",
-   "练习" rides on a folded ribbon, operator scraps float around. */
-.logo { position: relative; margin: calc(var(--fs) * 0.62) 0 calc(var(--fs) * 0.2); display: grid; justify-items: center; font-family: var(--chunky); font-weight: 400; line-height: 1; --fs: clamp(64px, 21vw, 96px); }
-.logo-burst { position: absolute; left: 50%; top: calc(var(--fs) * 0.52); width: calc(var(--fs) * 2.7); height: calc(var(--fs) * 2.7); transform: translate(-50%, -50%) rotate(calc(var(--spin, 0) * 1deg)); z-index: -1; filter: drop-shadow(0 6px 0 rgba(27, 29, 77, .9)); }
-.logo-top { display: flex; gap: .02em; font-size: var(--fs); letter-spacing: -.04em; }
+/* Logo: the lulu drawing sits on a spinning burst, "练习" rides a ribbon. */
+.logo { position: relative; margin: 8px 0 4px; display: grid; justify-items: center; font-family: var(--chunky); font-weight: 400; line-height: 1; --fs: clamp(64px, 21vw, 96px); }
+.logo-burst { position: absolute; left: 50%; top: 42%; width: calc(var(--fs) * 2.9); height: calc(var(--fs) * 2.9); transform: translate(-50%, -50%) rotate(calc(var(--spin, 0) * 1deg)); z-index: -1; filter: drop-shadow(0 6px 0 rgba(27, 29, 77, .9)); }
+.logo-lulu { display: block; width: min(52vw, 220px); height: auto; margin: 2px 0 2px; filter: drop-shadow(4px 6px 0 rgba(27, 29, 77, .85)); animation: logo-hop 1.8s cubic-bezier(.3, 1.6, .5, 1) infinite; --r: -4deg; }
 .logo i { font-style: normal; display: inline-block; position: relative; }
-.logo-top i {
-  color: #fff;
-  /* white paper edge, ink outline, then an offset second sheet */
-  text-shadow:
-    0 0 0 #fff,
-    3px 0 0 var(--ink), -3px 0 0 var(--ink), 0 3px 0 var(--ink), 0 -3px 0 var(--ink),
-    2.5px 2.5px 0 var(--ink), -2.5px 2.5px 0 var(--ink), 2.5px -2.5px 0 var(--ink), -2.5px -2.5px 0 var(--ink),
-    6px 7px 0 var(--pink), 8px 9px 0 var(--ink), 4px 10px 0 var(--ink);
-  transform: rotate(var(--r, -6deg)) translateY(var(--dy, 0));
-  animation: logo-hop 1.6s cubic-bezier(.3, 1.6, .5, 1) infinite;
-}
-.logo-top i:nth-child(1) { --r: -9deg; color: #fff; }
-.logo-top i:nth-child(2) { --r: 7deg; --dy: -6px; animation-delay: -.8s; }
-.logo-top i::after { content: attr(data-c); position: absolute; inset: 0; color: var(--blue); clip-path: polygon(0 62%, 100% 50%, 100% 100%, 0 100%); text-shadow: none; }
-.logo-top i:nth-child(2)::after { color: var(--pink); }
-.logo-ribbon { position: relative; display: flex; justify-content: center; gap: .1em; margin-top: calc(var(--fs) * 0.04); padding: .12em .9em .2em; font-size: calc(var(--fs) * 0.52); color: #fff; transform: rotate(-3deg); }
+.logo-ribbon { position: relative; display: flex; justify-content: center; gap: .1em; margin-top: 2px; padding: .12em .9em .2em; font-size: calc(var(--fs) * 0.42); color: #fff; transform: rotate(-3deg); }
 .ribbon-bg { position: absolute; inset: -6% -14% -10%; width: 128%; height: 116%; z-index: -1; filter: drop-shadow(0 5px 0 var(--ink)); }
 .logo-ribbon i { text-shadow: 2px 0 0 var(--ink), -2px 0 0 var(--ink), 0 2px 0 var(--ink), 0 -2px 0 var(--ink), 0 4px 0 var(--ink); animation: logo-wave 1.6s ease-in-out infinite; }
 .logo-ribbon i:nth-child(3) { animation-delay: -.25s; }
@@ -99,7 +83,7 @@ button:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
 .logo-bits b:nth-child(2) { animation-delay: -.6s; }
 .logo-bits b:nth-child(3) { animation-delay: -1.2s; }
 .logo-bits b:nth-child(4) { animation-delay: -1.8s; }
-@keyframes logo-hop { 0%, 100% { transform: rotate(var(--r)) translateY(var(--dy, 0)) scale(1); } 12% { transform: rotate(var(--r)) translateY(calc(var(--dy, 0px) + 4px)) scale(1.08, .9); } 30% { transform: rotate(calc(var(--r) * -0.4)) translateY(calc(var(--dy, 0px) - 10px)) scale(.96, 1.06); } 55% { transform: rotate(var(--r)) translateY(var(--dy, 0)) scale(1); } }
+@keyframes logo-hop { 0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0) scale(1); } 12% { transform: rotate(var(--r, 0deg)) translateY(4px) scale(1.06, .94); } 30% { transform: rotate(calc(var(--r, 0deg) * -0.4)) translateY(-8px) scale(.97, 1.04); } 55% { transform: rotate(var(--r, 0deg)) translateY(0) scale(1); } }
 @keyframes logo-wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @keyframes logo-float { 0%, 100% { margin-top: 0; } 50% { margin-top: -8px; } }
 body.reduced .logo *, body.reduced .logo-burst { animation: none !important; }
