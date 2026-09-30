@@ -37,7 +37,14 @@ flutter build apk --release
 
 安装包在 `shell/build/app/outputs/flutter-apk/app-release.apk`。
 
-推送 `v*` 标签（例如 `v1.0.0`）后，GitHub Actions 会自动打 APK，并挂到对应的 Release 上。也可以在 Actions 页手动跑「发版打包」。
+推送 `v*` 标签就会自动打包。例如：
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+GitHub Actions 打完 APK 后，会创建同名 Release，并把安装包挂上去。也可以在 Actions 页手动跑「发版打包」。
 
 ## 测试
 
