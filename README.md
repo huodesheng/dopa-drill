@@ -1,6 +1,6 @@
 # 噜噜练习
 
-每做完一道算术，演出和音乐就再热闹一档的计算练习。只在浏览器里运行。
+每做完一道算术，演出和音乐就再热闹一档的计算练习。浏览器直接玩，也可以装安卓版。
 
 吉祥物「噜噜」会把你输入的数字搬到算式上，答对就庆祝。题目越往后，画面和声音越热闹，最后像过节一样。答错也不会掉气势，没有游戏结束。
 
@@ -25,6 +25,20 @@ python -m http.server 8000 -d app
 
 浏览器打开 `http://localhost:8000/`。用了 ES Modules，直接用 `file://` 打开不会运行。
 
+## 安卓版
+
+`shell/` 是 Flutter 壳，把 `app/` 嵌进 WebView。练习记录存在手机本机。
+
+```bash
+cd shell
+rm -rf assets/game && mkdir -p assets/game && cp -a ../app/. assets/game/
+flutter build apk --release
+```
+
+安装包在 `shell/build/app/outputs/flutter-apk/app-release.apk`。
+
+推送 `v*` 标签（例如 `v1.0.0`）后，GitHub Actions 会自动打 APK，并挂到对应的 Release 上。也可以在 Actions 页手动跑「发版打包」。
+
 ## 测试
 
 需要 Node.js 20 以上。
@@ -38,6 +52,7 @@ node --test tests/*.test.mjs
 | 路径 | 内容 |
 | --- | --- |
 | `app/` | 游戏本体（无依赖库的 ES Modules） |
+| `shell/` | 安卓壳（Flutter WebView），发版时由 GitHub Actions 打包 |
 | `docs/SPEC.md` | 规格书（日文原文） |
 | `docs/curriculum.md` | 年级课程与技能树设计（日文原文） |
 | `docs/dopakichi.svg` | 噜噜造型原典 |

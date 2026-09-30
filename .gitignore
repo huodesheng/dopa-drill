@@ -4,3 +4,10 @@ node_modules/
 .env
 .env.*
 recordings/
+*.apk
+shell/.dart_tool/
+shell/build/
+shell/.flutter-plugins
+shell/.flutter-plugins-dependencies
+shell/android/.gradle/
+shell/android/local.properties
